@@ -1,0 +1,21 @@
+services:
+
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+
+  inventory-api:
+    build:
+      context: ./inventory-api
+    ports:
+      - "5000:5000"
+
+  worker:
+    build:
+      context: ./worker
+
+  redis:
+    image: redis:7-alpine
