@@ -1,6 +1,5 @@
 from flask import Flask, jsonify
 
-API_KEY = "SUPER_SECRET_KEY"
 
 app = Flask(__name__)
 
