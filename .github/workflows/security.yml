@@ -33,11 +33,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+
+      - name: Set Image Tag
+        run: |
+        echo "IMAGE_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
+
       - name: Build Inventory API Image
         run: |
           docker build \
           -t ghcr.io/${{ github.repository }}/inventory-api:latest \
           ./inventory-api
+
 
       - name: Trivy Image Scan
         uses: aquasecurity/trivy-action@master
@@ -47,5 +53,6 @@ jobs:
 
       - name: Push Image
         run: |
-          docker push \
-          ghcr.io/${{ github.repository }}/inventory-api:latest
+          docker build \
+          -t ghcr.io/${{ github.repository }}/inventory-api:${IMAGE_TAG} \
+          ./inventory-api
